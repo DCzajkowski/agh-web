@@ -19,7 +19,21 @@ use Illuminate\Http\Request;
 // });
 
 Route::get('/books', function () {
+    $paginator = Book::with('publisher')->paginate(20);
+
     return [
-        'data' => Book::with('publisher')->get(),
+        'data' => $paginator->items(),
+        'meta' => [
+            'current_page' => $paginator->currentPage(),
+            'first_page_url' => $paginator->url(1),
+            'from' => $paginator->firstItem(),
+            'last_page' => $paginator->lastPage(),
+            'last_page_url' => $paginator->url($paginator->lastPage()),
+            'next_page_url' => $paginator->nextPageUrl(),
+            'per_page' => $paginator->perPage(),
+            'prev_page_url' => $paginator->previousPageUrl(),
+            'to' => $paginator->lastItem(),
+            'total' => $paginator->total(),
+        ],
     ];
 });

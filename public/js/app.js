@@ -13315,19 +13315,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             error: null,
-            books: null
+            response: null,
+            range: []
         };
     },
     mounted: function mounted() {
         var _this = this;
 
         window.axios.get('/api/books').then(function (response) {
-            _this.books = response.data.data;
+            _this.response = response.data;
+            for (var i = 0; i < _this.response.meta.last_page; i++) {
+                _this.range[i] = i + 1;
+            }
         }).catch(function (error) {
             _this.error = 'We encountered a problem with connecting into out API.';
         });
@@ -13350,14 +13375,14 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm.books
+      _vm.response
         ? _c("div", { staticClass: "table-wrapper" }, [
             _c("table", { staticClass: "table table-hover" }, [
               _vm._m(0),
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.books, function(book, index) {
+                _vm._l(_vm.response.data.books, function(book, index) {
                   return _c(
                     "tr",
                     { key: book.id, staticClass: "visible-on-hover" },
@@ -13377,6 +13402,55 @@ var render = function() {
                   )
                 })
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "paginator" }, [
+              _vm.range.length > 1
+                ? _c(
+                    "ul",
+                    { staticClass: "pagination" },
+                    [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: _vm.response.meta.prev_page_url,
+                            rel: "prev"
+                          }
+                        },
+                        [_vm._v("«")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.range, function(index) {
+                        return _c("li", { key: index })
+                      }),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href:
+                                "http://library.dev/api/books?page=" + _vm.index
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.index))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: _vm.response.meta.next_page_url,
+                            rel: "next"
+                          }
+                        },
+                        [_vm._v("»")]
+                      )
+                    ],
+                    2
+                  )
+                : _vm._e()
             ])
           ])
         : _c("div", [_c("loading-spinner")], 1)

@@ -4,7 +4,7 @@
             <div class="alert alert-error" v-if="error">
                 {{ error }}
             </div>
-            <div v-if="books" class="table-wrapper">
+            <div v-if="response" class="table-wrapper">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(book, index) in books" :key="book.id" class="visible-on-hover">
+                        <tr v-for="(book, index) in response.data.books" :key="book.id" class="visible-on-hover">
                             <td>{{ index }}</td>
                             <td>{{ book.title }}</td>
                             <td>{{ book.author }}</td>
@@ -30,6 +30,27 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="paginator">
+                    <ul class="pagination" v-if="range.length > 1">
+                        <a :href="response.meta.prev_page_url" rel="prev">&laquo;</a>
+                        <li v-for="index in range" :key="index">
+                            <li><a :href="`http://library.dev/api/books?page=${index}`">{{ index }}</a></li>
+                        </li>
+                        <a :href="response.meta.next_page_url" rel="next">&raquo;</a>
+                        <!-- <li><a href="http://library.dev/api/books?page=1">1</a></li>
+                        <li class="active"><span>2</span></li>
+                        <li><a href="http://library.dev/api/books?page=3">3</a></li>
+                        <li><a href="http://library.dev/api/books?page=4">4</a></li>
+                        <li><a href="http://library.dev/api/books?page=5">5</a></li>
+                        <li><a href="http://library.dev/api/books?page=6">6</a></li>
+                        <li><a href="http://library.dev/api/books?page=7">7</a></li>
+                        <li><a href="http://library.dev/api/books?page=8">8</a></li>
+                        <li class="disabled"><span>...</span></li>
+                        <li><a href="http://library.dev/api/books?page=49">49</a></li>
+                        <li><a href="http://library.dev/api/books?page=50">50</a></li>
+                        <li><a href="http://library.dev/api/books?page=3" rel="next">&raquo;</a></li> -->
+                    </ul>
+                </div>
             </div>
             <div v-else>
                 <loading-spinner></loading-spinner>
@@ -43,13 +64,17 @@
         data() {
             return {
                 error: null,
-                books: null,
+                response: null,
+                range: [],
             }
         },
         mounted() {
             window.axios.get('/api/books')
                 .then(response => {
-                    this.books = response.data.data
+                    this.response = response.data
+                    for (let i = 0; i < this.response.meta.last_page; i++) {
+                        this.range[i] = i + 1
+                    }
                 })
                 .catch(error => {
                     this.error = 'We encountered a problem with connecting into out API.'
