@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Publisher;
 use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
+    public function __construct(Request $request)
+    {
+        if ($request->user() && ! $request->user()->hasRole('librarian')) {
+            abort(403);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +30,9 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('books.create');
+        return view('books.create', ['publishers' => Publisher::all()]);
     }
 
     /**
