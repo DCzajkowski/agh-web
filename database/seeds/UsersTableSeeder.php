@@ -13,8 +13,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::forceCreate([
-            'name' => 'Dariusz Czajkowski',
-            'email' => 'dare.czajkowski@gmail.com',
+            'name' => 'Miranda Jones',
+            'email' => 'miranda@example.com',
             'password' => bcrypt('password'),
         ]); // generic user
 
