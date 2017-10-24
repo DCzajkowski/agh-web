@@ -11,10 +11,23 @@
 .heading {
     display: flex;
     align-items: center;
-    margin: 1rem 0 3rem;
+    margin: 1rem 0 5rem;
 
     h1 {
         flex: 1;
         margin: 0;
     }
+}
+
+.table-wrapper {
+    background: white;
+    padding: 1rem;
+}
+
+.visible-on-hover .should-appear {
+    visibility: hidden;
+}
+
+.visible-on-hover:hover .should-appear {
+    visibility: visible;
 }

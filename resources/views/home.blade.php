@@ -19,11 +19,7 @@
                 @endcan
             </div>
 
-            <div class="container-fluid">
-                <div class="row">
-
-                </div>
-            </div>
+            <books-table></books-table>
         </div>
     </div>
 </div>
