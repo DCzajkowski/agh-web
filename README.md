@@ -6,6 +6,7 @@ cd library
 composer install
 cp .env.example .env
 php artisan key:generate
+touch database/database.sqlite # If you are going to be using sqlite (already set-up)
 php artisan migrate --seed
 php artisan serve --host=localhost --port=8080
 # Navigate to http://localhost:8080
