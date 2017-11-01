@@ -15,8 +15,9 @@
 
             <books-table
                 :books="{{ $books }}"
-                :can-update-books="{{ Auth::user()->can('update books') ? 'true' : 'false' }}"
-                :can-delete-books="{{ Auth::user()->can('delete books') ? 'true' : 'false' }}"
+                search="{{ request('q') }}"
+                :can-update-books="{{ $user->can('update books') ? 'true' : 'false' }}"
+                :can-delete-books="{{ $user->can('delete books') ? 'true' : 'false' }}"
             ></books-table>
         </div>
     </div>

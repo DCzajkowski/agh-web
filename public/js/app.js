@@ -15388,7 +15388,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['books', 'canUpdateBooks', 'canDeleteBooks'],
+    props: ['books', 'canUpdateBooks', 'canDeleteBooks', 'search'],
     data: function data() {
         return {
             sort: null,
@@ -15403,28 +15403,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         csrfToken: function csrfToken() {
             return window.csrf_token;
         },
-        sortedBooks: function sortedBooks() {
+        filteredBooks: function filteredBooks() {
             var _this = this;
 
-            if (this.sort === null) {
-                return this.books.slice((this.page - 1) * this.limit, this.page * this.limit + 1);
-            } else if (['title', 'author', 'release_date'].includes(this.sort)) {
-                return JSON.parse(JSON.stringify(this.books)).sort(function (a, b) {
-                    var fieldA = a[_this.sort].toLowerCase();
-                    var fieldB = b[_this.sort].toLowerCase();
+            if (this.search) {
+                return JSON.parse(JSON.stringify(this.books.filter(function (book) {
+                    return book.title.toLowerCase().includes(_this.search.toLowerCase()) || book.author.toLowerCase().includes(_this.search.toLowerCase()) || book.publisher.name.toLowerCase().includes(_this.search.toLowerCase());
+                })));
+            } else {
+                return JSON.parse(JSON.stringify(this.books));
+            }
+        },
+        sortedBooks: function sortedBooks() {
+            var _this2 = this;
 
-                    if (_this.order === 'asc') {
+            if (this.sort === null) {
+                return this.filteredBooks.slice((this.page - 1) * this.limit, this.page * this.limit + 1);
+            } else if (['title', 'author', 'release_date'].includes(this.sort)) {
+                return this.filteredBooks.sort(function (a, b) {
+                    var fieldA = a[_this2.sort].toLowerCase();
+                    var fieldB = b[_this2.sort].toLowerCase();
+
+                    if (_this2.order === 'asc') {
                         return fieldA < fieldB ? -1 : 1;
                     } else {
                         return fieldA > fieldB ? -1 : 1;
                     }
                 }).slice((this.page - 1) * this.limit, this.page * this.limit + 1);
             } else if (this.sort === 'publisher') {
-                return JSON.parse(JSON.stringify(this.books)).sort(function (a, b) {
+                return this.filteredBooks.sort(function (a, b) {
                     var fieldA = a.publisher.name.toLowerCase();
                     var fieldB = b.publisher.name.toLowerCase();
 
-                    if (_this.order === 'asc') {
+                    if (_this2.order === 'asc') {
                         return fieldA < fieldB ? -1 : 1;
                     } else {
                         return fieldA > fieldB ? -1 : 1;
@@ -15456,7 +15467,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         lastPage: function lastPage() {
-            return Math.ceil(this.books.length / this.limit);
+            return Math.ceil(this.filteredBooks.length / this.limit);
         },
         displayPages: function displayPages() {
             this.pages = [];

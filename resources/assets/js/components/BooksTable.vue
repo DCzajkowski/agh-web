@@ -95,6 +95,7 @@
             'books',
             'canUpdateBooks',
             'canDeleteBooks',
+            'search',
         ],
         data() {
             return {
@@ -109,11 +110,22 @@
             csrfToken() {
                 return window.csrf_token
             },
+            filteredBooks() {
+                if (this.search) {
+                    return JSON.parse(JSON.stringify(this.books.filter(book => {
+                        return book.title.toLowerCase().includes(this.search.toLowerCase())
+                            || book.author.toLowerCase().includes(this.search.toLowerCase())
+                            || book.publisher.name.toLowerCase().includes(this.search.toLowerCase())
+                    })))
+                } else {
+                    return JSON.parse(JSON.stringify(this.books))
+                }
+            },
             sortedBooks() {
                 if (this.sort === null) {
-                    return this.books.slice((this.page - 1) * this.limit, this.page * this.limit + 1)
+                    return this.filteredBooks.slice((this.page - 1) * this.limit, this.page * this.limit + 1)
                 } else if (['title', 'author', 'release_date'].includes(this.sort)) {
-                    return JSON.parse(JSON.stringify(this.books)).sort((a, b) => {
+                    return this.filteredBooks.sort((a, b) => {
                         const fieldA = a[this.sort].toLowerCase()
                         const fieldB = b[this.sort].toLowerCase()
 
@@ -124,7 +136,7 @@
                         }
                     }).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
                 } else if (this.sort === 'publisher') {
-                    return JSON.parse(JSON.stringify(this.books)).sort((a, b) => {
+                    return this.filteredBooks.sort((a, b) => {
                         const fieldA = a.publisher.name.toLowerCase()
                         const fieldB = b.publisher.name.toLowerCase()
 
@@ -160,7 +172,7 @@
                 }
             },
             lastPage() {
-                return Math.ceil(this.books.length / this.limit)
+                return Math.ceil(this.filteredBooks.length / this.limit)
             },
             displayPages() {
                 this.pages = []

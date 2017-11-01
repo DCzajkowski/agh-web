@@ -26,25 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if ($q = request('q')) {
-            $publishers = Publisher::where('name', 'LIKE', "%{$q}%")
-                ->get()
-                ->map(function ($publisher) {
-                    return $publisher->id;
-                })
-                ->toArray();
-
-            $books = Book::with('publisher')
-                ->where('title', 'LIKE', "%{$q}%")
-                ->orWhere('author', 'LIKE', "%{$q}%")
-                ->orWhereIn('publisher_id', $publishers)
-                ->paginate(30);
-        } else {
-            $books = Book::with('publisher')->get();
-        }
-
         return view('home', [
-            'books' => $books,
+            'books' => Book::with('publisher')->get(),
             'user' => Auth::user(),
         ]);
     }
