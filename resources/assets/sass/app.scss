@@ -31,3 +31,22 @@
 .visible-on-hover:hover .should-appear {
     visibility: visible;
 }
+
+.bg-white {
+    background: #fff;
+}
+
+.paginator {
+    margin-bottom: 5rem;
+}
+
+.books-controls {
+    display: flex;
+    align-items: center;
+
+    .btn-link.text-danger {
+        padding: 0;
+        color: #a94442;
+    }
+}
+

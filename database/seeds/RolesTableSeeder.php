@@ -17,12 +17,16 @@ class RolesTableSeeder extends Seeder
 
         Permission::create(['name' => 'add users']);
         Permission::create(['name' => 'update users']);
+        Permission::create(['name' => 'delete users']);
         Permission::create(['name' => 'add books']);
         Permission::create(['name' => 'update books']);
+        Permission::create(['name' => 'delete books']);
 
         $librarian->givePermissionTo('add users');
         $librarian->givePermissionTo('update users');
+        $librarian->givePermissionTo('delete users');
         $librarian->givePermissionTo('add books');
         $librarian->givePermissionTo('update books');
+        $librarian->givePermissionTo('delete books');
     }
 }

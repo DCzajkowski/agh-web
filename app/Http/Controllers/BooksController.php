@@ -52,7 +52,7 @@ class BooksController extends Controller
 
         Book::create($data);
 
-        return redirect('/books')->with('status', 'Successfully added a book');
+        return redirect(route('home'))->withStatus('Successfully added a book');
     }
 
     /**
@@ -97,6 +97,8 @@ class BooksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Book::find($id)->delete();
+
+        return redirect()->back()->withStatus('Successfully removed a book from the database');
     }
 }

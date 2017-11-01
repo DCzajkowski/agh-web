@@ -8380,3 +8380,25 @@ button.close {
   visibility: visible;
 }
 
+.bg-white {
+  background: #fff;
+}
+
+.paginator {
+  margin-bottom: 5rem;
+}
+
+.books-controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.books-controls .btn-link.text-danger {
+  padding: 0;
+  color: #a94442;
+}
+

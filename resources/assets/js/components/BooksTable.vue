@@ -30,14 +30,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="paginator">
+                <!-- <div class="paginator">
                     <ul class="pagination" v-if="range.length > 1">
                         <a :href="response.meta.prev_page_url" rel="prev">&laquo;</a>
                         <li v-for="index in range" :key="index">
                             <li><a :href="`http://library.dev/api/books?page=${index}`">{{ index }}</a></li>
                         </li>
                         <a :href="response.meta.next_page_url" rel="next">&raquo;</a>
-                        <!-- <li><a href="http://library.dev/api/books?page=1">1</a></li>
+                        <li><a href="http://library.dev/api/books?page=1">1</a></li>
                         <li class="active"><span>2</span></li>
                         <li><a href="http://library.dev/api/books?page=3">3</a></li>
                         <li><a href="http://library.dev/api/books?page=4">4</a></li>
@@ -48,9 +48,9 @@
                         <li class="disabled"><span>...</span></li>
                         <li><a href="http://library.dev/api/books?page=49">49</a></li>
                         <li><a href="http://library.dev/api/books?page=50">50</a></li>
-                        <li><a href="http://library.dev/api/books?page=3" rel="next">&raquo;</a></li> -->
+                        <li><a href="http://library.dev/api/books?page=3" rel="next">&raquo;</a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <div v-else>
                 <loading-spinner></loading-spinner>
