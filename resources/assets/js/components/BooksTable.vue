@@ -3,7 +3,7 @@
         <table class="table" id="books-table">
             <thead>
                 <tr>
-                    <th @click="sortBy('title')">
+                    <th @click="sortBy('title')" style="min-width: 300px">
                         <div>
                             <span class="heading-text">Title</span>
                             <span
@@ -12,7 +12,7 @@
                             ></span>
                         </div>
                     </th>
-                    <th @click="sortBy('author')" style="width: 190px">
+                    <th @click="sortBy('author')" style="min-width: 190px">
                         <div>
                             <span class="heading-text">Author</span>
                             <span
@@ -30,7 +30,7 @@
                             ></span>
                         </div>
                     </th>
-                    <th @click="sortBy('release_date')" style="width: 130px">
+                    <th @click="sortBy('release_date')" style="min-width: 130px">
                         <div>
                             <span class="heading-text">Release Date</span>
                             <span
@@ -48,7 +48,7 @@
                             ></span>
                         </div>
                     </th>
-                    <th v-if="canUpdateBooks || canDeleteBooks || canLendBooks" style="width: 210px"></th>
+                    <th v-if="canUpdateBooks || canDeleteBooks || canLendBooks" style="min-width: 210px"></th>
                 </tr>
             </thead>
             <tbody>

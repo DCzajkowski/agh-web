@@ -1,6 +1,0 @@
-[x] Installation guide in a README
-[x] Only admin can add new users
-[x] Search by title, author and by info is available or not
-[x] Admin can lend books
-[] Some kind of messaging
-[] Two CSS stylesheets

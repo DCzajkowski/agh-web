@@ -11,6 +11,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link href="{{ asset('css/app.css', App::environment('production')) }}" rel="stylesheet">
+    @if (session('theme') === 'dark')
+        <link href="{{ asset('css/dark.css', App::environment('production')) }}" rel="stylesheet">
+    @endif
 </head>
 <body>
     <div id="app">
@@ -69,6 +72,9 @@
                                     @can('lend books')
                                         <li><a href="{{ route('checkouts.create') }}">Lend a Book</a></li>
                                     @endcan
+                                    <li>
+                                        <a href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}">{{ (session('theme') === 'dark') ? 'Light theme' : 'Dark theme' }}</a>
+                                    </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
