@@ -27,28 +27,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $books = collect(DB::select('
-            select `books`.*, `publishers`.`name` as publisher, case when `checkouts`.`is_returned` is null then 0 else 1 end as is_available
+        $books = DB::select('
+            select `books`.*, `publishers`.`name` as publisher, case when `checkouts`.`is_returned` is null then 1 else 0 end as is_available
             from `books`
             left join `publishers` on `books`.`publisher_id` = `publishers`.`id`
             left join `checkouts` on `checkouts`.`book_id` = `books`.`id`
-        '))
-        ->map(function ($book) {
-            return [
-                'id' => $book->id,
-                'title' => $book->title,
-                'author' => $book->author,
-                'publisher' => [
-                    'name' => $book->publisher,
-                ],
-                'publisher_id' => $book->publisher_id,
-                'release_date' => $book->release_date,
-                'is_available' => $book->is_available,
-            ];
-        });
+        ');
 
         return view('home', [
-            'books' => $books,
+            'books' => json_encode($books),
             'user' => Auth::user(),
         ]);
     }

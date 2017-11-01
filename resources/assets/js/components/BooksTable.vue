@@ -55,9 +55,9 @@
                 <tr class="visible-on-hover" v-for="book in sortedBooks" :key="book.id">
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
-                    <td>{{ book.publisher.name }}</td>
+                    <td>{{ book.publisher }}</td>
                     <td class="text-center">{{ book.release_date }}</td>
-                    <td class="text-center"><span :class="(book.is_available) ? 'text-success glyphicon glyphicon-ok' : 'text-danger glyphicon glyphicon-remove'"></span></td>
+                    <td class="text-center"><span :class="(book.is_available == '1') ? 'text-success glyphicon glyphicon-ok' : 'text-danger glyphicon glyphicon-remove'"></span></td>
                     <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks || canLendBooks">
                         <a
                             v-if="canLendBooks"
@@ -133,7 +133,7 @@
                     return this.books.filter(book => {
                         return book.title.toLowerCase().includes(this.search.toLowerCase())
                             || book.author.toLowerCase().includes(this.search.toLowerCase())
-                            || book.publisher.name.toLowerCase().includes(this.search.toLowerCase())
+                            || book.publisher.toLowerCase().includes(this.search.toLowerCase())
                     })
                 } else {
                     return JSON.parse(JSON.stringify(this.books))
@@ -142,29 +142,18 @@
             sortedBooks() {
                 if (this.sort === null) {
                     return JSON.parse(JSON.stringify(this.filteredBooks)).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
-                } else if (['title', 'author', 'release_date'].includes(this.sort)) {
-                    return JSON.parse(JSON.stringify(this.filteredBooks)).sort((a, b) => {
-                        const fieldA = a[this.sort].toLowerCase()
-                        const fieldB = b[this.sort].toLowerCase()
-
-                        if (this.order === 'asc')  {
-                            return (fieldA < fieldB) ? -1 : 1
-                        } else {
-                            return (fieldA > fieldB) ? -1 : 1
-                        }
-                    }).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
-                } else if (this.sort === 'publisher') {
-                    return JSON.parse(JSON.stringify(this.filteredBooks)).sort((a, b) => {
-                        const fieldA = a.publisher.name.toLowerCase()
-                        const fieldB = b.publisher.name.toLowerCase()
-
-                        if (this.order === 'asc')  {
-                            return (fieldA < fieldB) ? -1 : 1
-                        } else {
-                            return (fieldA > fieldB) ? -1 : 1
-                        }
-                    }).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
                 }
+
+                return JSON.parse(JSON.stringify(this.filteredBooks)).sort((a, b) => {
+                    const fieldA = a[this.sort].toLowerCase()
+                    const fieldB = b[this.sort].toLowerCase()
+
+                    if (this.order === 'asc')  {
+                        return (fieldA < fieldB) ? -1 : 1
+                    } else {
+                        return (fieldA > fieldB) ? -1 : 1
+                    }
+                }).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
             },
         },
         methods: {

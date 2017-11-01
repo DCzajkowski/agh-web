@@ -40,7 +40,7 @@ class CheckoutsController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'barcode' => ['required', 'integer', 'exists:books,barcode'],
+            'barcode' => ['required', 'numeric', 'exists:books,barcode'],
             'email' => ['required', 'email', 'exists:users,email'],
         ]);
 
