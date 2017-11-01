@@ -61,19 +61,19 @@
                     <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks || canLendBooks">
                         <a
                             v-if="canLendBooks"
-                            :href="`http://library.dev/checkout/${book.id}`"
+                            :href="`${baseUrl}/checkout/${book.id}`"
                             class="should-appear"
                             style="margin-right: 1rem"
                         ><span class="glyphicon glyphicon-bookmark"></span> Lend</a>
                         <a
                             v-if="canUpdateBooks"
-                            :href="`http://library.dev/books/${book.id}/edit`"
+                            :href="`${baseUrl}/books/${book.id}/edit`"
                             class="should-appear"
                             style="margin-right: 1rem"
                         ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                         <form
                             v-if="canDeleteBooks"
-                            :action="`http://library.dev/books/${book.id}`"
+                            :action="`${baseUrl}/books/${book.id}`"
                             method="post"
                             accept-charset="utf-8"
                         >
@@ -108,6 +108,7 @@
 <script>
     export default {
         props: [
+            'baseUrl',
             'books',
             'canLendBooks',
             'canUpdateBooks',

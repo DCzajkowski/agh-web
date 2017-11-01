@@ -14,6 +14,7 @@
             </div>
 
             <books-table
+                base-url="{{ config('app.url') }}"
                 :books="{{ $books }}"
                 search="{{ request('q') }}"
                 :can-update-books="{{ $user->can('update books') ? 'true' : 'false' }}"
