@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
+    protected $request;
+
     public function __construct(Request $request)
     {
-        if ($request->user() && ! $request->user()->hasRole('librarian')) {
-            abort(403);
-        }
+        $this->request = $request;
     }
 
     /**
@@ -30,20 +30,23 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
+        abort_unless(optional($this->request->user())->hasPermissionTo('add books'), 403);
+
         return view('books.create', ['publishers' => Publisher::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        $data = $request->validate([
+        abort_unless(optional($this->request->user())->hasPermissionTo('add books'), 403);
+
+        $data = $this->request->validate([
             'title' => ['required'],
             'author' => ['required'],
             'publisher_id' => ['required', 'exists:publishers,id'],
@@ -74,19 +77,34 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
-        //
+        abort_unless(optional($this->request->user())->hasPermissionTo('update books'), 403);
+
+        return view('books.edit', [
+            'book' => Book::findOrFail($id),
+            'publishers' => Publisher::all(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        abort_unless(optional($this->request->user())->hasPermissionTo('update books'), 403);
+
+        $data = $this->request->validate([
+            'title' => ['required'],
+            'author' => ['required'],
+            'publisher_id' => ['required', 'exists:publishers,id'],
+            'release_date' => ['required'],
+        ]);
+
+        Book::findOrFail($id)->update($data);
+
+        return redirect()->back()->withStatus('All changes saved successfully.');
     }
 
     /**
@@ -97,7 +115,9 @@ class BooksController extends Controller
      */
     public function destroy($id)
     {
-        Book::find($id)->delete();
+        abort_unless(optional($this->request->user())->hasPermissionTo('delete books'), 403);
+
+        Book::findOrFail($id)->delete();
 
         return redirect()->back()->withStatus('Successfully removed a book from the database');
     }
