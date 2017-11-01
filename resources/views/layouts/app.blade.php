@@ -10,7 +10,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
     <link href="{{ asset('css/app.css', App::environment('production')) }}" rel="stylesheet">
 </head>
 <body>
@@ -45,6 +44,16 @@
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
                         @else
+                            <li>
+                                <form class="navbar-form" role="search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search books..." name="q">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
                             @can('add users')
                                 <li><a href="{{ route('register') }}">Add new user</a></li>
                             @endcan
@@ -85,7 +94,6 @@
         @yield('content')
     </div>
 
-    <!-- Scripts -->
     <script src="{{ asset('js/app.js', App::environment('production')) }}"></script>
 </body>
 </html>

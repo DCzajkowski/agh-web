@@ -1,84 +1,194 @@
 <template>
     <div>
-        <div class="row">
-            <div class="alert alert-error" v-if="error">
-                {{ error }}
-            </div>
-            <div v-if="response" class="table-wrapper">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Publisher</th>
-                            <th style="width: 110px">Release Date</th>
-                            <th style="width: 150px">Extras</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(book, index) in response.data.books" :key="book.id" class="visible-on-hover">
-                            <td>{{ index }}</td>
-                            <td>{{ book.title }}</td>
-                            <td>{{ book.author }}</td>
-                            <td>{{ book.publisher.name }}</td>
-                            <td>{{ book.release_date }}</td>
-                            <td>
-                                <a href="#" class="should-appear" title="" style="margin-right: 1rem"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                <a href="#" class="should-appear" title=""><span class="glyphicon glyphicon-trash"></span> Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- <div class="paginator">
-                    <ul class="pagination" v-if="range.length > 1">
-                        <a :href="response.meta.prev_page_url" rel="prev">&laquo;</a>
-                        <li v-for="index in range" :key="index">
-                            <li><a :href="`http://library.dev/api/books?page=${index}`">{{ index }}</a></li>
-                        </li>
-                        <a :href="response.meta.next_page_url" rel="next">&raquo;</a>
-                        <li><a href="http://library.dev/api/books?page=1">1</a></li>
-                        <li class="active"><span>2</span></li>
-                        <li><a href="http://library.dev/api/books?page=3">3</a></li>
-                        <li><a href="http://library.dev/api/books?page=4">4</a></li>
-                        <li><a href="http://library.dev/api/books?page=5">5</a></li>
-                        <li><a href="http://library.dev/api/books?page=6">6</a></li>
-                        <li><a href="http://library.dev/api/books?page=7">7</a></li>
-                        <li><a href="http://library.dev/api/books?page=8">8</a></li>
-                        <li class="disabled"><span>...</span></li>
-                        <li><a href="http://library.dev/api/books?page=49">49</a></li>
-                        <li><a href="http://library.dev/api/books?page=50">50</a></li>
-                        <li><a href="http://library.dev/api/books?page=3" rel="next">&raquo;</a></li>
-                    </ul>
-                </div> -->
-            </div>
-            <div v-else>
-                <loading-spinner></loading-spinner>
-            </div>
+        <table class="table bg-white" id="books-table">
+            <thead>
+                <tr>
+                    <th @click="sortBy('title')">
+                        <div>
+                            <span class="heading-text">Title</span>
+                            <span
+                                class="icon glyphicon glyphicon-arrow-down"
+                                :class="{ 'visible': this.sort === 'title', 'reversed': this.order === 'desc' }"
+                            ></span>
+                        </div>
+                    </th>
+                    <th @click="sortBy('author')" style="width: 190px">
+                        <div>
+                            <span class="heading-text">Author</span>
+                            <span
+                                class="icon glyphicon glyphicon-arrow-down"
+                                :class="{ 'visible': this.sort === 'author', 'reversed': this.order === 'desc' }"
+                            ></span>
+                        </div>
+                    </th>
+                    <th @click="sortBy('publisher')">
+                        <div>
+                            <span class="heading-text">Publisher</span>
+                            <span
+                                class="icon glyphicon glyphicon-arrow-down"
+                                :class="{ 'visible': this.sort === 'publisher', 'reversed': this.order === 'desc' }"
+                            ></span>
+                        </div>
+                    </th>
+                    <th @click="sortBy('release_date')" style="width: 130px">
+                        <div>
+                            <span class="heading-text">Release Date</span>
+                            <span
+                                class="icon glyphicon glyphicon-arrow-down"
+                                :class="{ 'visible': this.sort === 'release_date', 'reversed': this.order === 'desc' }"
+                            ></span>
+                        </div>
+                    </th>
+                    <th v-if="canUpdateBooks || canDeleteBooks" style="width: 140px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="visible-on-hover" v-for="book in sortedBooks" :key="book.id">
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.publisher.name }}</td>
+                    <td>{{ book.release_date }}</td>
+                    <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks">
+                        <a
+                            v-if="canUpdateBooks"
+                            :href="`http://library.dev/books/${book.id}/edit`"
+                            class="should-appear"
+                            style="margin-right: 1rem"
+                        ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                        <form
+                            v-if="canDeleteBooks"
+                            :action="`http://library.dev/books/${book.id}`"
+                            method="post"
+                            accept-charset="utf-8"
+                        >
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" :value="csrfToken">
+
+                            <button type="submit" class="should-appear btn btn-link text-danger inline">
+                                <span class="glyphicon glyphicon-trash"></span> Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center paginator">
+            <ul class="pagination">
+                <li :class="{ 'disabled': page === 1 }" @click="prev"><span>«</span></li>
+
+                <li
+                    v-for="i in pages"
+                    :class="{ 'active': page === i, 'disabled': i === '...' }"
+                    @click="(i !== '...') ? page = i : ''"
+                    :key="i"
+                ><span>{{ i }}</span></li>
+
+                <li :class="{ 'disabled': page === lastPage() }" @click="next"><span>»</span></li>
+            </ul>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: [
+            'books',
+            'canUpdateBooks',
+            'canDeleteBooks',
+        ],
         data() {
             return {
-                error: null,
-                response: null,
-                range: [],
+                sort: null,
+                order: null,
+                limit: 20,
+                page: 1,
+                pages: [],
             }
         },
-        mounted() {
-            window.axios.get('/api/books')
-                .then(response => {
-                    this.response = response.data
-                    for (let i = 0; i < this.response.meta.last_page; i++) {
-                        this.range[i] = i + 1
+        computed: {
+            csrfToken() {
+                return window.csrf_token
+            },
+            sortedBooks() {
+                if (this.sort === null) {
+                    return this.books.slice((this.page - 1) * this.limit, this.page * this.limit + 1)
+                } else if (['title', 'author', 'release_date'].includes(this.sort)) {
+                    return JSON.parse(JSON.stringify(this.books)).sort((a, b) => {
+                        const fieldA = a[this.sort].toLowerCase()
+                        const fieldB = b[this.sort].toLowerCase()
+
+                        if (this.order === 'asc')  {
+                            return (fieldA < fieldB) ? -1 : 1
+                        } else {
+                            return (fieldA > fieldB) ? -1 : 1
+                        }
+                    }).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
+                } else if (this.sort === 'publisher') {
+                    return JSON.parse(JSON.stringify(this.books)).sort((a, b) => {
+                        const fieldA = a.publisher.name.toLowerCase()
+                        const fieldB = b.publisher.name.toLowerCase()
+
+                        if (this.order === 'asc')  {
+                            return (fieldA < fieldB) ? -1 : 1
+                        } else {
+                            return (fieldA > fieldB) ? -1 : 1
+                        }
+                    }).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
+                }
+            },
+        },
+        methods: {
+            sortBy(field) {
+                if (this.sort === field && this.order === 'asc') {
+                    this.order = 'desc'
+                } else if (this.sort === field && this.order === 'desc') {
+                    this.sort = null
+                    this.order = null
+                } else {
+                    this.sort = field
+                    this.order = 'asc'
+                }
+            },
+            prev() {
+                if (this.page > 1) {
+                    this.page--
+                }
+            },
+            next() {
+                if (this.page < this.lastPage()) {
+                    this.page++
+                }
+            },
+            lastPage() {
+                return Math.ceil(this.books.length / this.limit)
+            },
+            displayPages() {
+                this.pages = []
+
+                if (this.page > 5) {
+                    this.pages.push(1)
+                    this.pages.push(2)
+                    this.pages.push('...')
+                }
+                for (let i = 0; i < this.lastPage(); i++) {
+                    if (Math.abs(this.page - i) < 5) {
+                        this.pages.push(i + 1)
                     }
-                })
-                .catch(error => {
-                    this.error = 'We encountered a problem with connecting into out API.'
-                })
-        }
+                }
+                if (this.page < this.lastPage() - 5) {
+                    this.pages.push('...')
+                    this.pages.push(this.lastPage() - 1)
+                    this.pages.push(this.lastPage())
+                }
+            },
+        },
+        watch: {
+            page() {
+                this.displayPages()
+            },
+        },
+        mounted() {
+            this.displayPages()
+        },
     }
 </script>

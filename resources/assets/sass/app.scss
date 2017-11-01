@@ -50,3 +50,35 @@
     }
 }
 
+#books-table th > div {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    .heading-text {
+        flex: 1;
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        transition: .3s all ease-in-out;
+
+        &.reversed {
+            transform: rotate(-180deg);
+        }
+
+        &.visible {
+            opacity: 1;
+        }
+    }
+}
+
+.pagination span {
+    cursor: pointer;
+}
+
+// #books-table th:hover {
+//     background: #ccc;
+// }
