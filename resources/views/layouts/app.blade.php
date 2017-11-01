@@ -66,22 +66,22 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     @can('add users')
-                                        <li><a href="{{ route('register') }}">Add User</a></li>
+                                        <li><a href="{{ route('register') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-user"></span> Add User</a></li>
                                     @endcan
                                     @can('add books')
-                                        <li><a href="{{ route('books.create') }}">Add Book</a></li>
+                                        <li><a href="{{ route('books.create') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-book"></span> Add Book</a></li>
                                     @endcan
                                     @can('lend books')
-                                        <li><a href="{{ route('checkouts.create') }}">Lend a Book</a></li>
+                                        <li><a href="{{ route('checkouts.create') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-edit"></span> Lend a Book</a></li>
                                     @endcan
                                     <li>
-                                        <a href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}">{{ (session('theme') === 'dark') ? 'Light theme' : 'Dark theme' }}</a>
+                                        <a href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-adjust"></span> {{ (session('theme') === 'dark') ? 'Light theme' : 'Dark theme' }}</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            <span style="margin-right: 1rem" class="glyphicon glyphicon-log-out"></span> Logout
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
