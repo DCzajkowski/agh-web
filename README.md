@@ -6,8 +6,8 @@ cd library
 cp .env.example .env
 php artisan key:generate
 php artisan migrate --seed
-open http://localhost:8080
 php artisan serve --host=localhost --port=8080
+# Navigate to http://localhost:8080
 ```
 
 ## Authentication
