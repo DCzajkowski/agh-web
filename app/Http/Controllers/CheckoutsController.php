@@ -26,10 +26,6 @@ class CheckoutsController extends Controller
      */
     public function create($id = null)
     {
-        // if (session()->has('errors') && $id) {
-        //     return redirect(route('checkouts.create', null))->withErrors(session('errors'));
-        // }
-
         return view('checkouts.create', [
             'book' => Book::find($id),
         ]);
