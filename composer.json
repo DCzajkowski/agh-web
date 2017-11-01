@@ -50,6 +50,7 @@
             "@php artisan package:discover"
         ],
         "post-install-cmd" : [
+            "touch database/database.sqlite",
             "@php artisan migrate --seed"
         ]
     },
