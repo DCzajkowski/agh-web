@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') !== 'local') {
             $url->forceScheme('https');
         }
+        dd(config('app.env'));
 
         if (! session()->has('theme')) {
             session()->put('theme', 'light');
