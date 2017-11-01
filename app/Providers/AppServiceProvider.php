@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,15 +14,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(UrlGenerator $url)
+    public function boot()
     {
-        // if (Request::root() !== config('app.url')) {
-        //     return redirect(config('app.url'));
-        // }
-
-        // if (config('app.env') !== 'local') {
-        //     $url->forceScheme('https');
-        // }
+        if (config('app.env') !== 'local') {
+            URL::forceSchema('https');
+        }
 
         if (! session()->has('theme')) {
             session()->put('theme', 'light');
