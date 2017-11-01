@@ -15,13 +15,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url)
     {
-        if (Request::root() !== config('app.url')) {
-            return redirect(config('app.url'));
-        }
+        // if (Request::root() !== config('app.url')) {
+        //     return redirect(config('app.url'));
+        // }
 
-        if (config('app.env') !== 'local') {
-            $url->forceScheme('https');
-        }
+        // if (config('app.env') !== 'local') {
+        //     $url->forceScheme('https');
+        // }
 
         if (! session()->has('theme')) {
             session()->put('theme', 'light');
