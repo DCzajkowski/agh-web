@@ -4,50 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "24f086c264b8bf9ae2333b46211468ad",
+    "content-hash": "c28240a1a680ec3378c729464f5284c4",
     "packages": [
-        {
-            "name": "dczajkowski/auth-tests",
-            "version": "5.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DCzajkowski/auth-tests.git",
-                "reference": "a4210f0291b5262d3877d9e7ec3a1ad93567783f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DCzajkowski/auth-tests/zipball/a4210f0291b5262d3877d9e7ec3a1ad93567783f",
-                "reference": "a4210f0291b5262d3877d9e7ec3a1ad93567783f",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "DCzajkowski\\AuthTests\\AuthTestsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/AuthTestsServiceProvider.php",
-                    "src/Console/Commands/AuthTestsMakeCommand.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dariusz Czajkowski",
-                    "email": "dare.czajkowski@gmail.com",
-                    "homepage": "http://dczajkowski.com"
-                }
-            ],
-            "description": "Authentication tests for Laravel built-in authentication module.",
-            "time": "2017-09-28T20:40:17+00:00"
-        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
