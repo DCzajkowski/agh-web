@@ -18,3 +18,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/books', 'BooksController');
+
+Route::get('/checkout/{bookId?}', 'CheckoutsController@create')->name('checkouts.create');
+Route::post('/checkout', 'CheckoutsController@store')->name('checkouts.store');

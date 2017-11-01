@@ -8402,6 +8402,10 @@ button.close {
   color: #a94442;
 }
 
+#books-table tr:first-child > td {
+  border-top: 0;
+}
+
 #books-table th > div {
   cursor: pointer;
   display: -webkit-box;
@@ -8416,6 +8420,7 @@ button.close {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+  text-align: center;
 }
 
 #books-table th > div .icon {
@@ -8441,5 +8446,23 @@ button.close {
 
 .pagination span {
   cursor: pointer;
+}
+
+.books-table-wrapper {
+  padding: 0 1rem;
+}
+
+.available-icon,
+.unavailable-icon {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  right: 15px;
+  z-index: 2;
+}
+
+.relative {
+  position: relative;
 }
 

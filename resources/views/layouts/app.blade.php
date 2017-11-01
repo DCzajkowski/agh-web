@@ -54,16 +54,21 @@
                                     </div>
                                 </form>
                             </li>
-                            @can('add users')
-                                <li><a href="{{ route('register') }}">Add new user</a></li>
-                            @endcan
                             <li class="dropdown">
-
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    @can('add users')
+                                        <li><a href="{{ route('register') }}">Add User</a></li>
+                                    @endcan
+                                    @can('add books')
+                                        <li><a href="{{ route('books.create') }}">Add Book</a></li>
+                                    @endcan
+                                    @can('lend books')
+                                        <li><a href="{{ route('checkouts.create') }}">Lend a Book</a></li>
+                                    @endcan
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -87,6 +92,14 @@
             <div class="container">
                 <div class="alert alert-success">
                     {{ session('status') }}
+                </div>
+            </div>
+        @endif
+
+        @if (session('alert'))
+            <div class="container">
+                <div class="alert alert-danger">
+                    {{ session('alert') }}
                 </div>
             </div>
         @endif

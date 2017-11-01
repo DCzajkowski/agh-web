@@ -26,8 +26,24 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $books = Book::with(['publisher', 'checkouts'])
+            ->get()
+            ->map(function ($book) {
+                return [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'author' => $book->author,
+                    'publisher' => [
+                        'name' => $book->publisher->name,
+                    ],
+                    'publisher_id' => $book->publisher_id,
+                    'release_date' => $book->release_date,
+                    'is_available' => $book->isAvailable(),
+                ];
+            });
+
         return view('home', [
-            'books' => Book::with('publisher')->get(),
+            'books' => $books,
             'user' => Auth::user(),
         ]);
     }

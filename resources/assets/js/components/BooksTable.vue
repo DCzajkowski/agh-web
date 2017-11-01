@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <table class="table bg-white" id="books-table">
+    <div class="bg-white books-table-wrapper">
+        <table class="table" id="books-table">
             <thead>
                 <tr>
                     <th @click="sortBy('title')">
@@ -39,7 +39,16 @@
                             ></span>
                         </div>
                     </th>
-                    <th v-if="canUpdateBooks || canDeleteBooks" style="width: 140px"></th>
+                    <th @click="sortBy('is_available')">
+                        <div>
+                            <span class="heading-text">Available?</span>
+                            <span
+                                class="icon glyphicon glyphicon-arrow-down"
+                                :class="{ 'visible': this.sort === 'is_available', 'reversed': this.order === 'desc' }"
+                            ></span>
+                        </div>
+                    </th>
+                    <th v-if="canUpdateBooks || canDeleteBooks || canLendBooks" style="width: 210px"></th>
                 </tr>
             </thead>
             <tbody>
@@ -47,8 +56,15 @@
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.publisher.name }}</td>
-                    <td>{{ book.release_date }}</td>
-                    <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks">
+                    <td class="text-center">{{ book.release_date }}</td>
+                    <td class="text-center"><span :class="(book.is_available) ? 'text-success glyphicon glyphicon-ok' : 'text-danger glyphicon glyphicon-remove'"></span></td>
+                    <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks || canLendBooks">
+                        <a
+                            v-if="canLendBooks"
+                            :href="`http://library.dev/checkout/${book.id}`"
+                            class="should-appear"
+                            style="margin-right: 1rem"
+                        ><span class="glyphicon glyphicon-bookmark"></span> Lend</a>
                         <a
                             v-if="canUpdateBooks"
                             :href="`http://library.dev/books/${book.id}/edit`"
@@ -93,6 +109,7 @@
     export default {
         props: [
             'books',
+            'canLendBooks',
             'canUpdateBooks',
             'canDeleteBooks',
             'search',
@@ -112,20 +129,20 @@
             },
             filteredBooks() {
                 if (this.search) {
-                    return JSON.parse(JSON.stringify(this.books.filter(book => {
+                    return this.books.filter(book => {
                         return book.title.toLowerCase().includes(this.search.toLowerCase())
                             || book.author.toLowerCase().includes(this.search.toLowerCase())
                             || book.publisher.name.toLowerCase().includes(this.search.toLowerCase())
-                    })))
+                    })
                 } else {
                     return JSON.parse(JSON.stringify(this.books))
                 }
             },
             sortedBooks() {
                 if (this.sort === null) {
-                    return this.filteredBooks.slice((this.page - 1) * this.limit, this.page * this.limit + 1)
+                    return JSON.parse(JSON.stringify(this.filteredBooks)).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
                 } else if (['title', 'author', 'release_date'].includes(this.sort)) {
-                    return this.filteredBooks.sort((a, b) => {
+                    return JSON.parse(JSON.stringify(this.filteredBooks)).sort((a, b) => {
                         const fieldA = a[this.sort].toLowerCase()
                         const fieldB = b[this.sort].toLowerCase()
 
@@ -136,7 +153,7 @@
                         }
                     }).slice((this.page - 1) * this.limit, this.page * this.limit + 1)
                 } else if (this.sort === 'publisher') {
-                    return this.filteredBooks.sort((a, b) => {
+                    return JSON.parse(JSON.stringify(this.filteredBooks)).sort((a, b) => {
                         const fieldA = a.publisher.name.toLowerCase()
                         const fieldB = b.publisher.name.toLowerCase()
 

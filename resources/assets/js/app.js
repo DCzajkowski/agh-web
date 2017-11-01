@@ -17,6 +17,7 @@ window.Vue = require('vue')
 
 Vue.component('books-table', require('./components/BooksTable.vue'))
 Vue.component('loading-spinner', require('./components/LoadingSpinner.vue'))
+Vue.component('check-availability', require('./components/CheckAvailability.vue'))
 
 const app = new Vue({
     el: '#app'

@@ -50,6 +50,10 @@
     }
 }
 
+#books-table tr:first-child > td {
+    border-top: 0;
+}
+
 #books-table th > div {
     cursor: pointer;
     display: flex;
@@ -57,6 +61,7 @@
 
     .heading-text {
         flex: 1;
+        text-align: center;
     }
 
     .icon {
@@ -79,6 +84,19 @@
     cursor: pointer;
 }
 
-// #books-table th:hover {
-//     background: #ccc;
-// }
+.books-table-wrapper {
+    padding: 0 1rem;
+}
+
+.available-icon,
+.unavailable-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    z-index: 2;
+}
+
+.relative {
+    position: relative;
+}

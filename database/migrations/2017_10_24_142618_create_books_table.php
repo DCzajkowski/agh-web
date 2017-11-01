@@ -19,6 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('author');
             $table->unsignedInteger('publisher_id');
             $table->date('release_date');
+            $table->string('barcode')->length(13);
             $table->timestamps();
 
             $table->foreign('publisher_id')->references('id')->on('publishers');

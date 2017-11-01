@@ -18,7 +18,8 @@
                 search="{{ request('q') }}"
                 :can-update-books="{{ $user->can('update books') ? 'true' : 'false' }}"
                 :can-delete-books="{{ $user->can('delete books') ? 'true' : 'false' }}"
-            ></books-table>
+                :can-lend-books="{{ $user->can('lend books') ? 'true' : 'false' }}"
+            ></books-table> <!-- @todo -->
         </div>
     </div>
 </div>
