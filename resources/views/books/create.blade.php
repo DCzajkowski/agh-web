@@ -72,6 +72,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('barcode') ? ' has-error' : '' }}">
+                            <label for="barcode" class="col-md-4 control-label">Barcode</label>
+
+                            <div class="col-md-6">
+                                <input id="barcode" type="text" class="form-control" name="barcode" value="{{ old('barcode') }}" >
+
+                                @if ($errors->has('barcode'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('barcode') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

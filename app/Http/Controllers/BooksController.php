@@ -51,6 +51,7 @@ class BooksController extends Controller
             'author' => ['required'],
             'publisher_id' => ['required', 'exists:publishers,id'],
             'release_date' => ['required'],
+            'barcode' => ['required', 'numeric', 'unique:books,barcode', 'digits:13'],
         ]);
 
         Book::create($data);
@@ -100,6 +101,7 @@ class BooksController extends Controller
             'author' => ['required'],
             'publisher_id' => ['required', 'exists:publishers,id'],
             'release_date' => ['required'],
+            'barcode' => ['required', 'numeric', 'unique:books,barcode,' . $id, 'digits:13'],
         ]);
 
         Book::findOrFail($id)->update($data);
