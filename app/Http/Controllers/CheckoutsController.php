@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Checkout;
 use App\User;
 use Illuminate\Http\Request;
 
 class CheckoutsController extends Controller
 {
+    protected $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,6 +34,8 @@ class CheckoutsController extends Controller
      */
     public function create($id = null)
     {
+        abort_unless(optional($this->request->user())->hasPermissionTo('lend books'), 403);
+
         return view('checkouts.create', [
             'book' => Book::find($id),
         ]);
@@ -34,12 +44,13 @@ class CheckoutsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        $data = $request->validate([
+        abort_unless(optional($this->request->user())->hasPermissionTo('lend books'), 403);
+
+        $data = $this->request->validate([
             'barcode' => ['required', 'numeric', 'exists:books,barcode'],
             'email' => ['required', 'email', 'exists:users,email'],
         ]);
@@ -82,11 +93,10 @@ class CheckoutsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
     }
@@ -99,6 +109,17 @@ class CheckoutsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        abort_unless(optional($this->request->user())->hasPermissionTo('lend books'), 403);
+
+        $checkout = Checkout::where('book_id', $id)->where('is_returned', false)->first();
+
+        if (is_null($checkout)) {
+            return redirect()->back()->withAlert('This book is not lent to anyone.');
+        }
+
+        $checkout->is_returned = true;
+        $checkout->save();
+
+        return redirect()->back()->withStatus('Book returned successfully.');
     }
 }

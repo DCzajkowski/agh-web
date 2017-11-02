@@ -31,7 +31,11 @@ class HomeController extends Controller
             SELECT
                 books.*,
                 publishers.name AS publisher,
-                CASE WHEN checkouts.is_returned IS NULL THEN 1 ELSE 0 END AS is_available
+                CASE
+                    WHEN checkouts.is_returned IS NULL THEN 1
+                    WHEN checkouts.is_returned = TRUE THEN 1
+                    ELSE 0
+                END AS is_available
             FROM books
             LEFT JOIN publishers
                 ON books.publisher_id = publishers.id

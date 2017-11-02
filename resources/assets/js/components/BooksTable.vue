@@ -60,11 +60,25 @@
                     <td class="text-center"><span :class="(book.is_available == '1') ? 'text-success glyphicon glyphicon-ok' : 'text-danger glyphicon glyphicon-remove'"></span></td>
                     <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks || canLendBooks">
                         <a
-                            v-if="canLendBooks"
+                            v-if="canLendBooks && book.is_available == '1'"
                             :href="`${baseUrl}/checkout/${book.id}`"
                             class="should-appear"
-                            style="margin-right: 1rem"
+                          style="margin-right: 1rem"
                         ><span class="glyphicon glyphicon-bookmark"></span> Lend</a>
+                        <form
+                            v-else-if="canLendBooks && book.is_available == '0'"
+                            :action="`${baseUrl}/checkout/${book.id}`"
+                            method="post"
+                            accept-charset="utf-8"
+                        >
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" :value="csrfToken">
+
+                            <button type="submit" class="should-appear btn btn-link text-danger inline">
+                                <span class="glyphicon glyphicon-repeat"></span> Return
+                            </button>
+                        </form>
+
                         <a
                             v-if="canUpdateBooks"
                             :href="`${baseUrl}/books/${book.id}/edit`"

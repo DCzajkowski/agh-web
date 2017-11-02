@@ -21,5 +21,6 @@ Route::resource('/books', 'BooksController');
 
 Route::get('/checkout/{bookId?}', 'CheckoutsController@create')->name('checkouts.create');
 Route::post('/checkout', 'CheckoutsController@store')->name('checkouts.store');
+Route::delete('/checkout/{bookId}', 'CheckoutsController@destroy')->name('checkouts.destroy');
 
 Route::get('/theme/{mode}', 'ThemeController@change')->name('theme.switch');
