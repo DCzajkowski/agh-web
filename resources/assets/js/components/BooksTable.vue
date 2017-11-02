@@ -150,6 +150,7 @@
                         return book.title.toLowerCase().includes(this.search.toLowerCase())
                             || book.author.toLowerCase().includes(this.search.toLowerCase())
                             || book.publisher.toLowerCase().includes(this.search.toLowerCase())
+                            || book.release_date.includes(this.search.toLowerCase())
                     })
                 } else {
                     return JSON.parse(JSON.stringify(this.books))
@@ -169,8 +170,8 @@
                     if (fieldB === 1) fieldB = 'A'
                     if (fieldB === 0) fieldB = 'B'
 
-                    fieldA.toLowerCase()
-                    fieldB.toLowerCase()
+                    String(fieldA).toLowerCase()
+                    String(fieldB).toLowerCase()
 
                     if (this.order === 'asc')  {
                         return (fieldA < fieldB) ? -1 : 1
