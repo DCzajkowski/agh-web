@@ -55,11 +55,11 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                         @else
                             <li>
-                                <form class="navbar-form" role="search">
+                                <form class="navbar-form" role="search" method="GET" action="/">
                                     <label>
                                         <div class="input-group">
                                             <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-search"></span></span>
-                                            <input type="text" class="form-control" placeholder="Search books..." name="q" v-model="search">
+                                            <input type="text" class="form-control" placeholder="Search books..." name="search" v-model="search">
                                         </div>
                                     </label>
                                 </form>
@@ -77,6 +77,7 @@
                                         <li><a href="{{ route('books.create') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-book"></span> Add Book</a></li>
                                     @endcan
                                     @can('lend books')
+                                        <li><a href="{{ route('checkouts.index') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-th-list"></span> Current Checkouts</a></li>
                                         <li><a href="{{ route('checkouts.create') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-edit"></span> Lend a Book</a></li>
                                     @endcan
                                     <li>

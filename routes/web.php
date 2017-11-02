@@ -19,7 +19,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/books', 'BooksController');
 
-Route::get('/checkout/{bookId?}', 'CheckoutsController@create')->name('checkouts.create');
+Route::get('/checkout', 'CheckoutsController@index')->name('checkouts.index');
+Route::get('/checkout/create/{bookId?}', 'CheckoutsController@create')->name('checkouts.create');
 Route::post('/checkout', 'CheckoutsController@store')->name('checkouts.store');
 Route::delete('/checkout/{bookId}', 'CheckoutsController@destroy')->name('checkouts.destroy');
 

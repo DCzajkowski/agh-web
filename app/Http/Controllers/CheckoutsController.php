@@ -23,7 +23,11 @@ class CheckoutsController extends Controller
      */
     public function index()
     {
-        //
+        abort_unless(optional($this->request->user())->hasPermissionTo('lend books'), 403);
+
+        return view('checkouts.index', [
+            'checkouts' => Checkout::with(['book', 'user'])->where('is_returned', false)->get(),
+        ]);
     }
 
     /**

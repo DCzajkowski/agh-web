@@ -48,20 +48,20 @@
                             ></span>
                         </div>
                     </th>
-                    <th v-if="canUpdateBooks || canDeleteBooks || canLendBooks" style="min-width: 210px"></th>
+                    <th v-if="canUpdateBooks || canDeleteBooks || canLendBooks" style="min-width: 220px"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="visible-on-hover" v-for="book in sortedBooks" :key="book.id">
+                <tr class="visible-on-hover" v-for="book in sortedBooks">
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.publisher }}</td>
                     <td class="text-center">{{ book.release_date }}</td>
-                    <td class="text-center"><span :class="(book.is_available == '1') ? 'text-success glyphicon glyphicon-ok' : 'text-danger glyphicon glyphicon-remove'"></span></td>
+                    <td class="text-center"><span :class="(book.is_available === 1) ? 'text-success glyphicon glyphicon-ok' : 'text-danger glyphicon glyphicon-remove'"></span></td>
                     <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks || canLendBooks">
                         <a
                             v-if="canLendBooks && book.is_available == '1'"
-                            :href="`${baseUrl}/checkout/${book.id}`"
+                            :href="`${baseUrl}/checkout/create/${book.id}`"
                             class="should-appear"
                           style="margin-right: 1rem"
                         ><span class="glyphicon glyphicon-bookmark"></span> Lend</a>
@@ -74,7 +74,7 @@
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" :value="csrfToken">
 
-                            <button type="submit" class="should-appear btn btn-link text-danger inline">
+                            <button type="submit" class="should-appear btn btn-link inline">
                                 <span class="glyphicon glyphicon-repeat"></span> Return
                             </button>
                         </form>
@@ -110,7 +110,7 @@
                     v-for="i in pages"
                     :class="{ 'active': page === i, 'disabled': i === '...' }"
                     @click="(i !== '...') ? page = i : ''"
-                    :key="i"
+
                 ><span>{{ i }}</span></li>
 
                 <li :class="{ 'disabled': page === lastPage() }" @click="next"><span>»</span></li>
@@ -161,8 +161,16 @@
                 }
 
                 return JSON.parse(JSON.stringify(this.filteredBooks)).sort((a, b) => {
-                    const fieldA = a[this.sort].toLowerCase()
-                    const fieldB = b[this.sort].toLowerCase()
+                    let fieldA = a[this.sort]
+                    let fieldB = b[this.sort]
+
+                    if (fieldA === 1) fieldA = 'A'
+                    if (fieldA === 0) fieldA = 'B'
+                    if (fieldB === 1) fieldB = 'A'
+                    if (fieldB === 0) fieldB = 'B'
+
+                    fieldA.toLowerCase()
+                    fieldB.toLowerCase()
 
                     if (this.order === 'asc')  {
                         return (fieldA < fieldB) ? -1 : 1
