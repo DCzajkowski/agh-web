@@ -28,10 +28,15 @@ class HomeController extends Controller
     public function index()
     {
         $books = DB::select('
-            select `books`.*, `publishers`.`name` as publisher, case when `checkouts`.`is_returned` is null then 1 else 0 end as is_available
-            from `books`
-            left join `publishers` on `books`.`publisher_id` = `publishers`.`id`
-            left join `checkouts` on `checkouts`.`book_id` = `books`.`id`
+            SELECT
+                books.*,
+                publishers.name AS publisher,
+                CASE WHEN checkouts.is_returned IS NULL THEN 1 ELSE 0 END AS is_available
+            FROM books
+            LEFT JOIN publishers
+                ON books.publisher_id = publishers.id
+            LEFT JOIN checkouts
+                ON checkouts.book_id = books.id
         ');
 
         return view('home', [
