@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $books = DB::select('
+        $books = DB::select("
             SELECT
                 books.*,
                 publishers.name AS publisher,
@@ -41,7 +41,7 @@ class HomeController extends Controller
                 ON books.publisher_id = publishers.id
             LEFT JOIN checkouts
                 ON checkouts.book_id = books.id
-        ');
+        ");
 
         return view('home', [
             'books' => json_encode($books),
