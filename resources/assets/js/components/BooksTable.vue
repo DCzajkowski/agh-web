@@ -120,6 +120,8 @@
 </template>
 
 <script>
+    import appendQuery from '../appendQuery'
+
     export default {
         props: [
             'baseUrl',
@@ -216,11 +218,28 @@
             },
         },
         watch: {
+            order() {
+                history.pushState({}, 'Library', appendQuery(window.location.href, `order=${this.order}`))
+            },
+            sort() {
+                history.pushState({}, 'Library', appendQuery(window.location.href, `sort=${this.sort}`))
+            },
             page() {
+                history.pushState({}, 'Library', appendQuery(window.location.href, `page=${this.page}`))
+
+                this.displayPages()
+            },
+            search() {
+                history.pushState({}, 'Library', appendQuery(window.location.href, `search=${this.search}`))
+
                 this.displayPages()
             },
         },
         mounted() {
+            this.page = document.head.querySelector('meta[name="page"]').content || 1
+            this.order = (document.head.querySelector('meta[name="order"]').content !== 'null') ? document.head.querySelector('meta[name="order"]').content : null || null
+            this.sort = (document.head.querySelector('meta[name="sort"]').content !== 'null') ? document.head.querySelector('meta[name="sort"]').content : null || null
+
             this.displayPages()
         },
     }

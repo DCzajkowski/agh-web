@@ -16,11 +16,11 @@
             <books-table
                 base-url="{{ config('app.url') }}"
                 :books="{{ $books }}"
-                search="{{ request('q') }}"
+                :search="search"
                 :can-update-books="{{ $user->can('update books') ? 'true' : 'false' }}"
                 :can-delete-books="{{ $user->can('delete books') ? 'true' : 'false' }}"
                 :can-lend-books="{{ $user->can('lend books') ? 'true' : 'false' }}"
-            ></books-table> <!-- @todo -->
+            ></books-table>
         </div>
     </div>
 </div>

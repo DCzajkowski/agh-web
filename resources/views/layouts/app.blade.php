@@ -10,6 +10,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <meta name="search" content="{{ request('search') }}">
+    <meta name="page" content="{{ request('page') }}">
+    <meta name="order" content="{{ request('order') }}">
+    <meta name="sort" content="{{ request('sort') }}">
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link href="{{ asset('css/app.css', App::environment('production')) }}" rel="stylesheet">
@@ -51,12 +56,12 @@
                         @else
                             <li>
                                 <form class="navbar-form" role="search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search books..." name="q" value="{{ request('q') }}">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    <label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-search"></span></span>
+                                            <input type="text" class="form-control" placeholder="Search books..." name="q" v-model="search">
                                         </div>
-                                    </div>
+                                    </label>
                                 </form>
                             </li>
                             <li class="dropdown">
