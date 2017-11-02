@@ -22,7 +22,7 @@ class CreateBooksTable extends Migration
             $table->string('barcode')->length(13);
             $table->timestamps();
 
-            $table->foreign('publisher_id')->references('id')->on('publishers');
+            $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
         });
     }
 
