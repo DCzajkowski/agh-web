@@ -29,8 +29,8 @@ The demo is previewable at https://library-web-project.herokuapp.com
 ### Technologies:
 - **Back-end**
     - **PHP** — All of the back-end code is written in PHP – version is 7.1 (current stable).
-    - **Laravel** — I have decided to use a Web Framework (Laravel), because it is [the most popular framework for PHP at the moment](https://trends.google.com/trends/explore?q=Laravel,Symfony,CakePHP,Codeigniter,Yii).
-    - **SQLite / MySQL** — The database used was MySQL for development, but I have switched to SQLite for simple set-up and easy shareability.
+    - **Laravel 5.5** — I have decided to use a Laravel web framework, because it is [the most popular framework for PHP at the moment](https://trends.google.com/trends/explore?q=Laravel,Symfony,CakePHP,Codeigniter,Yii). It is also the greatest.
+    - **MySQL / PostgreSQL** — The database used during development was MySQL, but I have switched to PostgreSQL for Heroku deployment.
 - **Front-end**
     - **JavaScript / ES6** — At the front-end I have used simple JavaScript in the ECMA Script 6 standard.
     - **Vue.js** — Vue.js is quite a new web framework that gains on popularity. I have used it because of its reactivity model. It was used for a data table, sorting it, dynamic search and pagination.
@@ -46,6 +46,7 @@ The demo is previewable at https://library-web-project.herokuapp.com
     - Can view all books,
     - Can search through books,
     - Can preview availability of a book at a moment,
+    - Can preview all of the current checkouts,
     - Can lend books to users based on e-mail address.
 - User:
     - Can view all books,
