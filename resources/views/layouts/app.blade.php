@@ -81,6 +81,9 @@
                                         <li><a href="{{ route('checkouts.create') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-edit"></span> Lend a Book</a></li>
                                     @endcan
                                     <li>
+                                        <a href="{{ route('chat.index') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-envelope"></span> Chat</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-adjust"></span> {{ (session('theme') === 'dark') ? 'Light theme' : 'Dark theme' }}</a>
                                     </li>
                                     <li>

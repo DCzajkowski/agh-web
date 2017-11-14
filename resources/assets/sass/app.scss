@@ -4,6 +4,10 @@
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
+button {
+    border-radius: 0;
+}
+
 .heading {
     display: flex;
     align-items: center;
@@ -12,6 +16,43 @@
     h1 {
         flex: 1;
         margin: 0;
+    }
+}
+
+.users-list {
+    padding: 0;
+
+    .list-group-item {
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        padding-left: 3rem;
+
+        &:first-child {
+            border-top: none;
+        }
+    }
+}
+
+.messages {
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    height: 40rem;
+    overflow-y: scroll;
+}
+
+.bubble {
+    padding: 1rem 2rem;
+    background: #f3f3f3;
+    width: fit-content;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+
+    &--own {
+        align-self: flex-end;
+        background: #299bff;
+        color: #fff;
     }
 }
 

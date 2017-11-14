@@ -1,6 +1,7 @@
 <?php
 
 use App\Book;
+use App\Message;
 use Illuminate\Http\Request;
 
 /*
@@ -23,3 +24,6 @@ Route::get('/books/{barcode}/is-available', function ($barcode) {
 
     return $book->isAvailable() ? '2' : '1';
 });
+
+Route::middleware('auth:api')->post('/messages', 'MessagesController@store');
+Route::middleware('auth:api')->get('/messages/{id}', 'MessagesController@show');

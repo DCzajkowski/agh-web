@@ -16,12 +16,14 @@ class UsersTableSeeder extends Seeder
             'name' => 'Miranda Jones',
             'email' => 'miranda@example.com',
             'password' => bcrypt('password'),
+            'api_token' => str_random(60),
         ]); // generic user
 
         $admin = User::forceCreate([
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'password' => bcrypt('password'),
+            'api_token' => str_random(60),
         ]); // librarian
 
         $admin->assignRole('librarian');
