@@ -15,9 +15,17 @@
 
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-12 messages">
-                            <div class="bubble" :class="{ 'bubble--own': message.from === auth.id }" v-for="message in messages" v-if="messages" :title="message.created_at">
-                                {{ message.content }}
+                        <div class="col-lg-12">
+                            <div class="messages" v-if="messages.length && ! loading">
+                                <div class="bubble" :class="{ 'bubble--own': message.from === auth.id }" v-for="message in messages" :title="message.created_at">
+                                    {{ message.content }}
+                                </div>
+                            </div>
+                            <div class="messages text-center" v-else-if="! loading">
+                                No messages yet
+                            </div>
+                            <div class="messages text-center" v-else>
+                                Loading...
                             </div>
                         </div>
 
