@@ -47,8 +47,10 @@ The demo is previewable at https://library-web-project.herokuapp.com
     - Can search through books,
     - Can preview availability of a book at a moment,
     - Can preview all of the current checkouts,
+    - Can message other users,
     - Can lend books to users based on e-mail address.
 - User:
     - Can view all books,
     - Can search through books,
+    - Can message other users,
     - Can preview availability of a book at a moment.
