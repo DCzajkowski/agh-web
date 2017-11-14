@@ -16,7 +16,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="messages" v-if="messages.length && ! loading">
+                            <div class="messages" v-if="messages.length && ! loading" ref="messages">
                                 <div class="bubble" :class="{ 'bubble--own': message.from === auth.id }" v-for="message in messages" :title="message.created_at">
                                     {{ message.content }}
                                 </div>
@@ -52,7 +52,7 @@
         data() {
             return {
                 currentUser: null,
-                messages: null,
+                messages: [],
                 loading: false,
                 message: '',
             }
@@ -61,22 +61,38 @@
             showConversationFor(user) {
                 this.currentUser = user
 
-                this.getMessagesFor(user)
+                this.getInitialMessagesFor(user)
+            },
+            scrollToBottom() {
+                this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
             },
             getMessagesFor(user) {
+                return new Promise((resolve, reject) => {
+                    window.axios.get(`/api/messages/${this.currentUser.id}`, {
+                        headers: {
+                            'Authorization': `Bearer ${this.auth.api_token}`,
+                        },
+                    })
+                    .then(response => {
+                        this.messages = response.data
+                        resolve()
+                    })
+                    .catch(error => reject(error))
+                })
+            },
+            getInitialMessagesFor(user) {
                 this.loading = true
                 this.messages = []
 
-                window.axios.get(`/api/messages/${this.currentUser.id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${this.auth.api_token}`,
-                    },
-                })
-                .then(response => {
-                    this.messages = response.data
-                })
-                .catch(error => console.error(error))
-                .then(() => this.loading = false)
+                setInterval(() => {
+                    this.getMessagesFor(user)
+                        .then(() => {})
+                        .catch(error => console.error(error))
+                        .then(() => {
+                            this.loading = false
+                            setTimeout(() => this.scrollToBottom(), 100)
+                        })
+                }, 5000)
             },
             send() {
                 if (! this.loading) {
@@ -91,11 +107,20 @@
                         },
                     })
                     .then(response => {
+                        this.messages.push({
+                            content: this.message,
+                            to: this.currentUser.id,
+                            from: this.auth.id,
+                            updated_at: new Date().toJSON(),
+                            created_at: new Date().toJSON(),
+                        })
                         this.message = ''
-                        this.getMessagesFor(this.currentUser)
                     })
                     .catch(error => console.error(error))
-                    .then(() => this.loading = false)
+                    .then(() => {
+                        this.loading = false
+                        setTimeout(() => this.scrollToBottom(), 100)
+                    })
                 }
             },
         },
