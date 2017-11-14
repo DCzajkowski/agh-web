@@ -34,9 +34,9 @@ The demo is previewable at https://library-web-project.herokuapp.com
 - **Front-end**
     - **JavaScript / ES6** — At the front-end I have used simple JavaScript in the ECMA Script 6 standard.
     - **Vue.js** — Vue.js is quite a new web framework that gains on popularity. I have used it because of its reactivity model. It was used for a data table, sorting it, dynamic search and pagination.
-    - **axios** - Simple promise-based wrapper for Ajax requests. Used for checking availability of a book on-the-fly.
+    - **axios** - Simple promise-based wrapper for Ajax requests. Used for checking availability of a book on the fly.
     - **Sass** — As a compilation phase for my CSS I have used Sass for use of variables, nesting and more.
-    - **Bootstrap** — Since Laravel ships with Bootstrap out-of-the-box I have decided to go with it as a main, industrial visual language.
+    - **Bootstrap** — Since Laravel ships with Bootstrap out of the box, I have decided to go with it as a main, industrial visual language.
     - **Webpack** — Used as a compilator for all of my front-end assets I have used Webpack and Laravel Mix. That allows for backward-compatibility compilation of assets, minification, uglification and prefixing of CSS.
 
 ### Features
