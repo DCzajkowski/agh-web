@@ -16,7 +16,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 messages">
-                            <div class="bubble" :class="{ 'bubble--own': message.from === auth.id }" v-for="message in messages" v-if="messages">
+                            <div class="bubble" :class="{ 'bubble--own': message.from === auth.id }" v-for="message in messages" v-if="messages" :title="message.created_at">
                                 {{ message.content }}
                             </div>
                         </div>
@@ -24,10 +24,10 @@
                         <div class="col-lg-12">
                             <form accept-charset="utf-8" @submit.prevent="send">
                                 <div class="input-group">
-                                        <input type="text" v-model="message" class="form-control" placeholder="Write something nice...">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">Send</button>
-                                        </span>
+                                    <input type="text" v-model="message" class="form-control" placeholder="Write something nice...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Send</button>
+                                    </span>
                                 </div>
                             </form>
                         </div>

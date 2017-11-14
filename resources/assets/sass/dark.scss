@@ -5,6 +5,14 @@ body {
     background: #303030;
 }
 
+.bubble {
+    background: #777777;
+
+    &--own {
+        background: #299bff;
+    }
+}
+
 .users-list .list-group-item {
     color: $white;
     background: #303030;
