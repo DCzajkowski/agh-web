@@ -55,6 +55,7 @@
                 messages: [],
                 loading: false,
                 message: '',
+                interval: null,
             }
         },
         methods: {
@@ -64,7 +65,7 @@
                 this.getInitialMessagesFor(user)
             },
             scrollToBottom() {
-                this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
+                (this.$refs.messages || {}).scrollTop = (this.$refs.messages || {}).scrollHeight
             },
             getMessagesFor(user) {
                 return new Promise((resolve, reject) => {
@@ -84,7 +85,8 @@
                 this.loading = true
                 this.messages = []
 
-                setInterval(() => {
+                clearInterval(this.interval)
+                this.interval = setInterval(() => {
                     this.getMessagesFor(user)
                         .then(() => {})
                         .catch(error => console.error(error))
