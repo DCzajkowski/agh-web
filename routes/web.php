@@ -17,7 +17,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/books', 'BooksController');
+Route::get('/books/create', 'BooksController@create')->name('books.create');
+Route::post('/books', 'BooksController@store')->name('books.store');
+Route::get('/books/{book}/edit', 'BooksController@edit')->name('books.edit');
+Route::put('/books/{book}', 'BooksController@update')->name('books.update');
+Route::patch('/books/{book}', 'BooksController@update')->name('books.update');
+Route::delete('/books/{book}', 'BooksController@destroy')->name('books.destroy');
 
 Route::get('/checkout', 'CheckoutsController@index')->name('checkouts.index');
 Route::get('/checkout/create/{bookId?}', 'CheckoutsController@create')->name('checkouts.create');
