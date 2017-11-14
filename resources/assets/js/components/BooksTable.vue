@@ -3,7 +3,7 @@
         <table class="table" id="books-table">
             <thead>
                 <tr>
-                    <th @click="sortBy('title')" style="min-width: 300px">
+                    <th @click="sortBy('title')">
                         <div>
                             <span class="heading-text">Title</span>
                             <span
@@ -12,7 +12,7 @@
                             ></span>
                         </div>
                     </th>
-                    <th @click="sortBy('author')" style="min-width: 190px">
+                    <th @click="sortBy('author')">
                         <div>
                             <span class="heading-text">Author</span>
                             <span
@@ -27,6 +27,15 @@
                             <span
                                 class="icon glyphicon glyphicon-arrow-down"
                                 :class="{ 'visible': this.sort === 'publisher', 'reversed': this.order === 'desc' }"
+                            ></span>
+                        </div>
+                    </th>
+                    <th @click="sortBy('barcode')">
+                        <div>
+                            <span class="heading-text">Barcode</span>
+                            <span
+                                class="icon glyphicon glyphicon-arrow-down"
+                                :class="{ 'visible': this.sort === 'barcode', 'reversed': this.order === 'desc' }"
                             ></span>
                         </div>
                     </th>
@@ -56,6 +65,7 @@
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.publisher }}</td>
+                    <td>{{ book.barcode }}</td>
                     <td class="text-center">{{ book.release_date }}</td>
                     <td class="text-center"><span :class="(book.is_available === 1) ? 'text-success glyphicon glyphicon-ok' : 'text-danger glyphicon glyphicon-remove'"></span></td>
                     <td class="books-controls" v-if="canUpdateBooks || canDeleteBooks || canLendBooks">
@@ -150,6 +160,7 @@
                         return book.title.toLowerCase().includes(this.search.toLowerCase())
                             || book.author.toLowerCase().includes(this.search.toLowerCase())
                             || book.publisher.toLowerCase().includes(this.search.toLowerCase())
+                            || book.barcode.toLowerCase().includes(this.search.toLowerCase())
                             || book.release_date.includes(this.search.toLowerCase())
                     })
                 } else {
