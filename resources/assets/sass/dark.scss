@@ -133,4 +133,15 @@ a:focus {
     .right-menu li a {
         color: #ababab;
     }
+
+    .dropdown-activator {
+        background: #464646;
+    }
+
+    @media (max-width: 1000px) {
+        .dropdown-content {
+            background: #252525;
+            box-shadow: 1px 1px 10px #000;
+        }
+    }
 }
