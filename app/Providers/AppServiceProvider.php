@@ -18,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
         if (! session()->has('theme')) {
             session()->put('theme', 'light');
         }
+
+        Request::macro('class', function ($path) {
+            return Request::is($path) ? 'active' :  '';
+        });
     }
 
     /**

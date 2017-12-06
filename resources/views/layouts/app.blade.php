@@ -23,84 +23,54 @@
     @endif
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+    <div id="app" class="library">
+        <nav>
+            <div class="container nav">
+                <div class="logo">
+                    <a href="{{ route('home') }}">
+                        <img src="/img/logo.svg" alt="Online Library">
                     </a>
                 </div>
+                <div class="dropdown">
+                    <div class="dropdown-activator" onclick="document.querySelector('.dropdown-content').style.display = (document.querySelector('.dropdown-content').style.display == 'flex') ? 'none' : 'flex'">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="dropdown-content">
+                        <div class="menu">
+                            <ul>
+                                <li><a class="{{ Request::class('home') }}" href="{{ route('home') }}">Books</a></li>
+                                @can('add users')
+                                    <li><a class="{{ Request::class('register') }}" href="{{ route('register') }}">Add User</a></li>
+                                @endcan
+                                @can('add books')
+                                    <li><a class="{{ Request::class('books/create') }}" href="{{ route('books.create') }}">Add Book</a></li>
+                                @endcan
+                                @can('lend books')
+                                    <li><a class="{{ Request::class('checkout') }}" href="{{ route('checkouts.index') }}">Current Checkouts</a></li>
+                                    <li><a class="{{ Request::class('checkout/create') }}" href="{{ route('checkouts.create') }}">Lend a Book</a></li>
+                                @endcan
+                            </ul>
+                        </div>
+                        <div class="right-menu">
+                            <ul>
+                                <li><a title="Chat" href="{{ route('chat.index') }}"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                                <li><a title="Switch theme" href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}"><span class="glyphicon glyphicon-adjust"></span></a></li>
+                                <li>
+                                    <a title="Logout" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                        <span class="glyphicon glyphicon-log-out"></span>
+                                    </a>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                        @else
-                            <li>
-                                <form class="navbar-form" role="search" method="GET" action="/">
-                                    <label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-search"></span></span>
-                                            <input type="text" class="form-control" placeholder="Search books..." name="search" v-model="search">
-                                        </div>
-                                    </label>
-                                </form>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    @can('add users')
-                                        <li><a href="{{ route('register') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-user"></span> Add User</a></li>
-                                    @endcan
-                                    @can('add books')
-                                        <li><a href="{{ route('books.create') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-book"></span> Add Book</a></li>
-                                    @endcan
-                                    @can('lend books')
-                                        <li><a href="{{ route('checkouts.index') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-th-list"></span> Current Checkouts</a></li>
-                                        <li><a href="{{ route('checkouts.create') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-edit"></span> Lend a Book</a></li>
-                                    @endcan
-                                    <li>
-                                        <a href="{{ route('chat.index') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-envelope"></span> Chat</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}"><span style="margin-right: 1rem" class="glyphicon glyphicon-adjust"></span> {{ (session('theme') === 'dark') ? 'Light theme' : 'Dark theme' }}</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            <span style="margin-right: 1rem" class="glyphicon glyphicon-log-out"></span> Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>

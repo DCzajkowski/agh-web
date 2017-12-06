@@ -52,7 +52,7 @@ button {
     &--own {
         align-self: flex-end;
         background: #299bff;
-        color: #fff;
+        color: $white;
     }
 }
 
@@ -70,7 +70,7 @@ button {
 }
 
 .bg-white {
-    background: #fff;
+    background: $white;
 }
 
 .paginator {
@@ -137,3 +137,163 @@ button {
 .relative {
     position: relative;
 }
+
+$nav-height: 7rem;
+
+@mixin nav-list() {
+    margin: 0;
+    padding: 0;
+    height: $nav-height;
+    list-style: none;
+}
+
+@mixin nav-element($color) {
+    height: $nav-height;
+    display: inline-flex;
+
+    &:not(:last-child) {
+        margin-right: 2rem;
+    }
+
+    a {
+        color: $color;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        &:after {
+            content: "";
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #669999;
+            position: absolute;
+            bottom: 17px;
+            transition: 1s opacity;
+            opacity: 0;
+        }
+
+        &:focus,
+        &:hover {
+            text-decoration: none;
+
+            &:after {
+                opacity: 1;
+            }
+        }
+
+        &.active:after {
+            opacity: 1;
+        }
+    }
+}
+
+.library {
+    nav {
+        margin-bottom: 3rem;
+        background: $white;
+        padding: 1rem;
+        box-shadow: 1px 1px 10px #ccc;
+        height: $nav-height + 2rem;
+        display: flex;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            flex: 1;
+        }
+
+        .menu {
+            height: $nav-height;
+
+            ul {
+                height: $nav-height;
+                @include nav-list;
+            }
+
+            li {
+                @include nav-element(#484848);
+            }
+        }
+    }
+
+    .right-menu {
+        ul {
+            @include nav-list;
+            margin-left: 5rem;
+        }
+
+        li {
+            @include nav-element(#6B6C6C);
+
+            a {
+                &:hover {
+                    color: lighten(#6B6C6C, 15%);
+                }
+
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .dropdown {
+        position: initial;
+    }
+
+    .dropdown-content {
+        display: flex;
+    }
+
+    .dropdown-activator {
+        display: none;
+        width: 4rem;
+        height: 4rem;
+        background: #e2e2e2;
+        border-radius: 3px;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1rem;
+        margin-left: 5rem;
+
+        &> div {
+            background: #ccc;
+            height: 2px;
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .dropdown-activator {
+            display: flex;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 9rem;
+            background: #ffffff;
+            width: 100%;
+            z-index: 1;
+            padding: 3rem;
+            box-shadow: 1px 1px 10px #ccc;
+            flex-direction: column;
+        }
+
+        .right-menu ul {
+            margin: 0;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .nav .menu {
+            height: 2 * $nav-height;
+        }
+    }
+}
+

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white books-table-wrapper">
+    <div class="bg-white books-table-wrapper" style="overflow-x: scroll;">
         <table class="table" id="books-table">
             <thead>
                 <tr>
