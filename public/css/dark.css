@@ -120,3 +120,21 @@ a:focus {
   color: #fff;
 }
 
+.library .logo-letters {
+  fill: #d2d2d2;
+}
+
+.library .nav .menu li a {
+  color: #fff;
+}
+
+.library nav {
+  background: #252525;
+  -webkit-box-shadow: 1px 1px 10px #000;
+          box-shadow: 1px 1px 10px #000;
+}
+
+.library .right-menu li a {
+  color: #ababab;
+}
+

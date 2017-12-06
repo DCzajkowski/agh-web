@@ -115,3 +115,22 @@ a:focus {
 .navbar-default .navbar-brand:focus {
     color: $white;
 }
+
+.library {
+    .logo-letters {
+        fill: #d2d2d2;
+    }
+
+    .nav .menu li a {
+        color: $white;
+    }
+
+    nav {
+        background: #252525;
+        box-shadow: 1px 1px 10px #000;
+    }
+
+    .right-menu li a {
+        color: #ababab;
+    }
+}

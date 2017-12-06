@@ -28,7 +28,7 @@
             <div class="container nav">
                 <div class="logo">
                     <a href="{{ route('home') }}">
-                        <img src="/img/logo.svg" alt="Online Library">
+                        @include('layouts.logo')
                     </a>
                 </div>
                 <div class="dropdown">
