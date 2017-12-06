@@ -17,9 +17,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link href="{{ asset('css/app.css', App::environment('production')) }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css?new_version', App::environment('production')) }}" rel="stylesheet">
     @if (session('theme') === 'dark')
-        <link href="{{ asset('css/dark.css', App::environment('production')) }}" rel="stylesheet">
+        <link href="{{ asset('css/dark.css?new_version', App::environment('production')) }}" rel="stylesheet">
     @endif
 </head>
 <body>
@@ -96,6 +96,6 @@
         @yield('content')
     </div>
 
-    <script src="{{ asset('js/app.js', App::environment('production')) }}"></script>
+    <script src="{{ asset('js/app.js?new_version', App::environment('production')) }}"></script>
 </body>
 </html>
