@@ -37,40 +37,42 @@
                         <div></div>
                         <div></div>
                     </div>
-                    <div class="dropdown-content">
-                        <div class="menu">
-                            <ul>
-                                <li><a class="{{ Request::class('home') }}" href="{{ route('home') }}">Books</a></li>
-                                @can('add users')
-                                    <li><a class="{{ Request::class('register') }}" href="{{ route('register') }}">Add User</a></li>
-                                @endcan
-                                @can('add books')
-                                    <li><a class="{{ Request::class('books/create') }}" href="{{ route('books.create') }}">Add Book</a></li>
-                                @endcan
-                                @can('lend books')
-                                    <li><a class="{{ Request::class('checkout') }}" href="{{ route('checkouts.index') }}">Current Checkouts</a></li>
-                                    <li><a class="{{ Request::class('checkout/create') }}" href="{{ route('checkouts.create') }}">Lend a Book</a></li>
-                                @endcan
-                            </ul>
-                        </div>
-                        <div class="right-menu">
-                            <ul>
-                                <li><a title="Chat" href="{{ route('chat.index') }}"><span class="glyphicon glyphicon-envelope"></span></a></li>
-                                <li><a title="Switch theme" href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}"><span class="glyphicon glyphicon-adjust"></span></a></li>
-                                <li>
-                                    <a title="Logout" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        <span class="glyphicon glyphicon-log-out"></span>
-                                    </a>
+                    @auth
+                        <div class="dropdown-content">
+                            <div class="menu">
+                                <ul>
+                                    <li><a class="{{ Request::class('home') }}" href="{{ route('home') }}">Books</a></li>
+                                    @can('add users')
+                                        <li><a class="{{ Request::class('register') }}" href="{{ route('register') }}">Add User</a></li>
+                                    @endcan
+                                    @can('add books')
+                                        <li><a class="{{ Request::class('books/create') }}" href="{{ route('books.create') }}">Add Book</a></li>
+                                    @endcan
+                                    @can('lend books')
+                                        <li><a class="{{ Request::class('checkout') }}" href="{{ route('checkouts.index') }}">Current Checkouts</a></li>
+                                        <li><a class="{{ Request::class('checkout/create') }}" href="{{ route('checkouts.create') }}">Lend a Book</a></li>
+                                    @endcan
+                                </ul>
+                            </div>
+                            <div class="right-menu">
+                                <ul>
+                                    <li><a title="Chat" href="{{ route('chat.index') }}"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                                    <li><a title="Switch theme" href="{{ route('theme.switch', (session('theme') === 'dark') ? 'light' : 'dark') }}"><span class="glyphicon glyphicon-adjust"></span></a></li>
+                                    <li>
+                                        <a title="Logout" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            <span class="glyphicon glyphicon-log-out"></span>
+                                        </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    @endauth
                 </div>
             </div>
         </nav>
